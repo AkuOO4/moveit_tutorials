@@ -8,9 +8,15 @@ This package demonstrates the MoveIt! motion planning pipeline for the Panda rob
 - Pipeline configuration and usage
 
 ## Usage
-Launch the planning pipeline demo with:
+
+### Launch the planning pipeline demo:
 ```bash
 ros2 launch motion_planning_pipeline planning_pipeline.launch.py
+```
+
+### Launch the planning API demo:
+```bash
+ros2 launch motion_planning planning_api.launch.py
 ```
 
 ## Purpose

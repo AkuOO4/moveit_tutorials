@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(motion_planning_pipeline)
+project(planning_scene_ros_api)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -13,16 +13,14 @@ find_package(moveit_visual_tools REQUIRED)
 find_package(moveit_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(shape_msgs REQUIRED)
-find_package(Eigen3 REQUIRED)
 
-
-add_executable(planning_pipeline src/planning_pipeline.cpp)
-target_include_directories(planning_pipeline PUBLIC
+add_executable(planning_scene_ros_api_tutorial src/planning_scene_ros_api_tutorial.cpp)
+target_include_directories(planning_scene_ros_api_tutorial PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
-target_compile_features(planning_pipeline PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+target_compile_features(planning_scene_ros_api_tutorial PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 ament_target_dependencies(
-  planning_pipeline
+  planning_scene_ros_api_tutorial
  "rclcpp"
   "moveit_ros_planning_interface"
   "moveit_visual_tools"
@@ -32,7 +30,7 @@ ament_target_dependencies(
 )
 
 
-install(TARGETS planning_pipeline
+install(TARGETS planning_scene_ros_api_tutorial
   DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY launch

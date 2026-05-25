@@ -45,7 +45,7 @@ def generate_launch_description():
     # MotionPlanningPipeline demo executable
     planning_pipeline_demo = Node(
         name="planning_pipeline",
-        package="motion_planning_pipeline",
+        package="motion_planning",
         executable="planning_pipeline",
         output="screen",
         parameters=[

@@ -588,3 +588,93 @@ move_group.setPlanningPipelineId("ompl");
 * Pilz planners are preferred for deterministic industrial motions.
 * CHOMP/STOMP are often used for trajectory smoothing and optimization.
 * Real industrial systems usually combine multiple planning approaches.
+
+# 12. Pilz Industrial Motion Planner Limitations
+
+Pilz is a deterministic motion generator, not a search-based planner like OMPL.
+
+## Key Limitations
+
+* No obstacle avoidance. If a generated motion collides, planning fails.
+* No global search or alternative path generation.
+* Cannot intelligently handle cluttered environments.
+* Sensitive to singularities and joint limits during LIN motions.
+* Limited redundancy resolution for redundant manipulators.
+* No dynamic replanning during execution.
+* No path optimization (shortest path, energy, clearance, etc.).
+
+## Best Use Cases
+
+Pilz is most suitable for:
+
+* Welding
+* Dispensing
+* Polishing
+* Pick-and-place
+* Structured industrial workcells
+
+## Common Industrial Pattern
+
+```text
+OMPL (approach)
+      ↓
+Pilz LIN (process motion)
+      ↓
+OMPL (retract)
+```
+
+This combines obstacle avoidance with precise process execution.
+
+---
+
+# 13. Cartesian Path vs Pilz LIN
+
+Both generate straight-line Cartesian motion, but they serve different purposes.
+
+| Feature                        | computeCartesianPath() | Pilz LIN |
+| ------------------------------ | ---------------------- | -------- |
+| Straight Cartesian motion      | ✅                      | ✅        |
+| Planning pipeline              | ❌                      | ✅        |
+| Velocity/acceleration profiles | ❌                      | ✅        |
+| Controller-ready trajectory    | ❌                      | ✅        |
+| Industrial motion semantics    | ❌                      | ✅        |
+| Trajectory blending            | ❌                      | ✅        |
+| Deterministic                  | ✅                      | ✅        |
+| Obstacle avoidance             | ❌                      | ❌        |
+
+## Simple Mental Model
+
+```text
+computeCartesianPath()
+        =
+Geometric Path Generator
+
+Pilz LIN
+        =
+Industrial Motion Generator
+```
+
+Or:
+
+```text
+computeCartesianPath()
+        → "Draw a straight line"
+
+Pilz LIN
+        → "Execute a straight line as an industrial robot motion"
+```
+
+## When to Use
+
+**computeCartesianPath()**
+
+* Learning MoveIt
+* Prototyping
+* Research applications
+
+**Pilz LIN**
+
+* Welding
+* Production robot cells
+* Industrial process paths
+* Applications requiring deterministic motion
